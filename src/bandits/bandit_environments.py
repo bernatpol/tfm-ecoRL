@@ -176,7 +176,6 @@ class BanditEnv:
             self._info
         )
 
-
 def create_env(env_config=None):
     """Create a reinforcement learning environment."""
     env = BanditEnv(**env_config)

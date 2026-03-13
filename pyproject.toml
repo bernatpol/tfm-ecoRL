@@ -1,0 +1,22 @@
+[project]
+name = "tfm-ecorl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dm-haiku",
+    "ml-collections>=1.1.0",
+    "numpy>=2.4.2",
+    "optax>=0.2.7",
+    "pandas>=3.0.1",
+    "rlax>=0.1.8",
+    "seaborn>=0.13.2",
+    "torch>=2.10.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+dm-haiku = { git = "https://github.com/deepmind/dm-haiku.git" }
