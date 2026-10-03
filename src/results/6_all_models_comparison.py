@@ -89,14 +89,8 @@ for agent in agents:
 dependent_e_df = mean_reward_all_df[mean_reward_all_df["Environment"]=="dependent_e_models"]
 dependent_m_df = mean_reward_all_df[mean_reward_all_df["Environment"]=="dependent_m_models"]
 
-#%% Plot
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# -----------------------------
-# Pretty names
-# -----------------------------
-
+#%% Final Plot
+# Naming
 plot_df = dependent_e_df.copy()
 plot_df["Agent"] = plot_df["Agent"].map(agent_network)
 
@@ -112,9 +106,7 @@ order = [
     # "Low Rank 16 (48 hidden)",
 ]
 
-# -----------------------------
-# Paper / NeurIPS style
-# -----------------------------
+
 sns.set_theme(
     style="ticks",
     context="poster",
@@ -131,9 +123,7 @@ plt.rcParams.update({
     "ytick.major.size": 4,
 })
 
-# -----------------------------
 # Figure
-# -----------------------------
 fig, ax = plt.subplots(figsize=(12, 8))
 
 # Light violin for distribution shape
@@ -162,9 +152,7 @@ sns.swarmplot(
     ax=ax
 )
 
-# -----------------------------
 # Labels and formatting
-# -----------------------------
 ax.set_xlabel("Model Architecture", fontsize=35)
 ax.set_ylabel("Final Reward", fontsize=35)
 
@@ -186,7 +174,7 @@ ax.axhline(0.9, linestyle="--", color="k", linewidth=2, alpha=1)
 ax.set_yticks([0.5, 0.7, 0.9])
 
 plt.tight_layout()
-plt.savefig(OUT_DIR / "chapter_1_plots" / "plots" / f"final_comparison_violins_all_models_dependent_easy.svg", bbox_inches='tight', transparent=True, format="svg")
+# plt.savefig(OUT_DIR / "plots" / f"final_comparison_violins_all_models_dependent_easy.svg", bbox_inches='tight', transparent=True, format="svg")
 
 plt.show()
 # %%
