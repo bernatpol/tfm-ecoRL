@@ -1,8 +1,9 @@
-# tfm-ecoRL
-TFM: Towards a more ecologically based Deep Learning RL
+# TFM: Learning to Learn in Two-Armed Bandit Tasks with Interpretable Recurrent Neural Networks
 
-Look at the notebooks for starting the module.
+This repository contains all the code for reproducing all plots and agents used in the TFM.
 
-Right now there is the implementation with jax in the notebook "Learning to Learn_Bandit_jax.ipynb" which is self contained.
+Before plotting, the agents need to be trained and evaluated. This can be done using the scripts in `src/training`, and it is computationally expensive. We can choose the amount of agents we want to train and the specific environment. Once we have all agents trained, we use the scripts in `src/results`, numbered according to the subsection where they are shown.
 
-On the other side, we have the two notebooks inside the folder "Learning_to_learn" where we have a notebook for training and another for evaluating. Note that you can use the models in the output model in order to avoid training and direclty evaluate. These two notebooks use the code inside src.
+The specific definition of the neural networks are in `src/neural_networks`, where the agents using an LSTM, RNN, low-rank RNN and GRU are coded in PyTorch. Additionally, we find in `agents_1_LSTM_haiku.py` an LSTM agent coded in Jax used only in the beggining of the project, which is not used in the project but it is kept there for completeness.
+
+Finally, in `src/utils` we find the code for evaluating the agents, logging and some plotting functions.
