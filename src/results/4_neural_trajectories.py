@@ -1,4 +1,5 @@
-
+#%%
+import sys
 import ml_collections
 import numpy as np
 import pathlib
@@ -12,6 +13,10 @@ import matplotlib.colors as mcolors
 
 from bandits.bandit_environments import create_env
 from utils.plotting_basics import plot_decision_trajectory
+from neural_networks import agents_3_RNN
+
+# Map the old module path that pickle expects to the new module
+sys.modules['bandits.agents_3_RNN'] = agents_3_RNN
 
 def load_eval_config(training_config=None):
     eval_config = ml_collections.ConfigDict()

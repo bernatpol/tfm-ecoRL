@@ -2,6 +2,7 @@
 This script works with a model already trained. It evaluates the model on a set of evaluation episodes and then performs PCA on the hidden states of the RNN to visualize the decision trajectory in a 2D space.
 """
 #%% Import libraries
+import sys
 import ml_collections
 import numpy as np
 import pathlib
@@ -24,6 +25,10 @@ from scipy.interpolate import make_interp_spline
 from sklearn.decomposition import PCA
 
 from bandits.bandit_environments import create_env
+from neural_networks import agents_3_RNN
+
+# Map the old module path that pickle expects to the new module
+sys.modules['bandits.agents_3_RNN'] = agents_3_RNN
 
 
 def plot_pca_variance(pca, ax=None):

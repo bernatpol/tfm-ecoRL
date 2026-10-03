@@ -10,6 +10,7 @@ import pickle
 import torch
 import contextlib
 import io
+import sys
 
 from bandits.bandit_environments import create_env
 
@@ -24,6 +25,10 @@ import seaborn as sns
 
 from scipy.interpolate import make_interp_spline
 from sklearn.decomposition import PCA
+from neural_networks import agents_3_RNN
+
+# Map the old module path that pickle expects to the new module
+sys.modules['bandits.agents_3_RNN'] = agents_3_RNN
 
 
 def plot_pca_variance(pca, ax=None):
