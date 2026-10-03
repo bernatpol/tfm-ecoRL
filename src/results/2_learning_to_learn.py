@@ -1,3 +1,5 @@
+#%%
+import sys
 import pickle
 import numpy as np
 import pandas as pd
@@ -7,11 +9,15 @@ import pathlib
 import ml_collections
 import copy
 
-from bandits.bandit_environments import create_env
-from neural_networks.agents_3_RNN import create_agent
 from utils.logger import create_logger
 from utils.evaluation import evaluate_mean_cum_regret
+from neural_networks import agents_2_LSTM_torch, agents_3_RNN
+from neural_networks.agents_3_RNN import create_agent
+from bandits.bandit_environments import create_env
 
+# Map the old module path that pickle expects to the new module
+sys.modules['bandits.agents_2'] = agents_2_LSTM_torch
+sys.modules['bandits.agents_3_RNN'] = agents_3_RNN
 
 # Preliminary function
 def compute_quantiles(df_with_rewards, num_quantiles=7, window_size=None, plot_maximum=False, set_plateau_x=None):
@@ -185,16 +191,16 @@ OUT_DIR = pathlib.Path(__file__).parents[2] / "output"
 MODELS_OUTPUT_DIR = OUT_DIR / "training_percentile_models"
 
 # Script Parameters
-train_model = True # If true, it will train the model defined saving the agents from quantiles
+train_model = False # If true, it will train the model defined saving the agents from quantiles
 plot_evaluation_each_step = False
 evaluate = True
 
 # Select the seed with the best final performance
-model_name = "dependent_m_models" # "independent_models", "dependent_{u,e,m,h}_models"
+model_name = "dependent_e_models" # "independent_models", "dependent_{u,e,m,h}_models"
 seeds = [45, 46, 47, 48] + [50, 51, 52, 53, 54]
 MODEL_DIR = OUT_DIR / "bandit_models_rnn" / model_name
 
-# 1. Selecting model percentiles to use
+#%% 1. Selecting model percentiles to use
 seed = "seed_max_reward" # seed_number or "seed_max_reward"
 reward_structure = model_name.removesuffix("_models")
 num_quantiles_to_save = 10 #np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])* 2e6
@@ -229,7 +235,7 @@ quantiles_to_save = compute_quantiles(
 quantiles_to_save.append(int(1.5e6))
 print(f"Quantiles for seed {seed} are {quantiles_to_save}")
 
-# 2. Train the best model, saving the agents correspongding to the quantiles of the training steps distribution
+#%% 2. Train the best model, saving the agents correspongding to the quantiles of the training steps distribution
 # Remember than in order to execute it we must have train_model = True
 base_config = train_config(seed=seed_max_reward, reward_structure=reward_structure)
 
@@ -242,7 +248,7 @@ if train_model:
         quantiles_to_save=quantiles_to_save
     )
 
-# 3. Evaluate all percentile agents
+#%% 3. Evaluate all percentile agents
 AGENT_DIR = MODELS_OUTPUT_DIR / 'bandit_models_rnn' / f'{reward_structure}_models'
 EVAL_RESULTS_DIR = MODELS_OUTPUT_DIR / 'bandit_models_rnn' / f'{reward_structure}_models' / 'evaluation_results'
 
@@ -291,7 +297,7 @@ if evaluate == True:
     with open(path, 'wb') as fp:
         pickle.dump(data_dict, fp)
 
-# 4. Plot how performance evolves with the training steps
+#%% 4. Plot how performance evolves with the training steps
 reward_structures = {"dependent_e": 47, "dependent_m": 45}
 paths_to_data = [MODELS_OUTPUT_DIR / 'bandit_models_rnn' / f'{reward}_models' / 'evaluation_results' / f'data_dict_performance_{reward}_{reward_structures[reward]}.pkl' for reward in reward_structures]
 
@@ -354,3 +360,4 @@ ax.legend(handles=handles, labels=labels, loc="upper left", bbox_to_anchor=(1, 1
 
 plt.savefig(OUT_DIR / "plots" / f"training_curves_over_percentiles.pdf", bbox_inches='tight')
 plt.show()
+# %%

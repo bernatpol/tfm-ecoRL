@@ -504,7 +504,7 @@ def plot_all_points_with_prob(
     return ax
 
 #%% MAIN
-OUT_DIR = pathlib.Path("C:\\Users\\pol12\\Desktop\\Universitat\\MAMME\\TFM\\tfm-ecoRL\\output")
+OUT_DIR = pathlib.Path(__file__).parents[2] / "output"
 seed = 45
 reward_structure = "restless"
 agent, training_config = load_agent(OUT_DIR / "bandit_restless_models_rnn" / f"{reward_structure}_{seed}.pkl")

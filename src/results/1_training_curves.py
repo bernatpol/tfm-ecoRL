@@ -1,8 +1,15 @@
+#%%
 import pickle
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pathlib
+import sys
+from neural_networks import agents_2_LSTM_torch, agents_3_RNN
+
+# Map the old module path that pickle expects to the new module
+sys.modules['bandits.agents_2'] = agents_2_LSTM_torch
+sys.modules['bandits.agents_3_RNN'] = agents_3_RNN
 
 OUT_DIR = pathlib.Path(__file__).parents[2] / "output"
 
@@ -169,3 +176,4 @@ for agent in agents:
     # Save as PDF for vector graphics in LaTeX
     # plt.savefig(OUT_DIR / "bandit_models_rnn" / "training_curves_with_mean.svg", format="svg", bbox_inches='tight', transparent=True)
     plt.show()
+# %%

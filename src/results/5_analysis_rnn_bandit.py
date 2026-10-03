@@ -628,7 +628,7 @@ def plot_decision_trajectory_with_prob(
     return ax
 
 #%% MAIN
-OUT_DIR = pathlib.Path("C:\\Users\\pol12\\Desktop\\Universitat\\MAMME\\TFM\\tfm-ecoRL\\output")
+OUT_DIR = pathlib.Path(__file__).parents[2] / "output"
 seed = 45 #Seed with all plots in presentation: 45
 reward_structure = "dependent_e"
 agent, training_config = load_agent(OUT_DIR / "bandit_models_rnn" / f"{reward_structure}_models" / f"{reward_structure}_{seed}.pkl")
